@@ -1,19 +1,24 @@
-﻿using Application.Business.Blog.Queries.GetBlogs;
-using Application.Common.Helpers;
+﻿using Application.Common.Helpers;
 using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Business.Category.Queries.GetCategoriesQuery;
+namespace Application.Business.Category.Queries;
 public class GetCategoriesQuery : IRequest<ApiResponse>
+{
+    
+}
+
+
+public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, ApiResponse>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetCategoriesQuery(IApplicationDbContext context)
+    public GetCategoriesQueryHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<ApiResponse> Handle(GetBlogsQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
         return new ApiResponse
         {
@@ -24,3 +29,4 @@ public class GetCategoriesQuery : IRequest<ApiResponse>
         };
     }
 }
+

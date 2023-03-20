@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Business.Blog.Commands.CreateBlogCommand;
+namespace Application.Business.Blog.Commands;
 public class CreateBlogCommand : IRequest<Guid>
 {
     public string Header { get; set; } = string.Empty;

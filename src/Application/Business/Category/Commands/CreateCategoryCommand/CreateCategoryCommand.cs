@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Business.Category.Commands.CreateCategoryCommand;
+namespace Application.Business.Category.Commands;
 public class CreateCategoryCommand : IRequest<Guid>
 {
     public string Name { get; set; } = string.Empty;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.Business.Blog.Commands.CreateBlogCommand;
+namespace Application.Business.Blog.Commands;
 public class CreateBlogCommandValidator : AbstractValidator<CreateBlogCommand>
 {
     public CreateBlogCommandValidator()

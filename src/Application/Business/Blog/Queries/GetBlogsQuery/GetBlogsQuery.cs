@@ -2,7 +2,7 @@
 using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Business.Blog.Queries.GetBlogs;
+namespace Application.Business.Blog.Queries;
 public class GetBlogsQuery : IRequest<ApiResponse>
 {
 }
