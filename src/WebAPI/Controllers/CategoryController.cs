@@ -4,17 +4,15 @@ using Application.Business.Category.Queries;
 using Application.Common.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Controllers.Base;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class CategoryController : ControllerBase
+public class CategoryController : ApiControllerBase
 {
-    private ISender _mediator = null!;
-
-    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 
     [HttpGet]
     public async Task<ActionResult<ApiResponse>> Get() => await Mediator.Send(new GetCategoriesQuery());

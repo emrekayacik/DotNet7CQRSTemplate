@@ -3,16 +3,14 @@ using Application.Business.Blog.Queries;
 using Application.Common.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Controllers.Base;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers;
 [Route("[controller]")]
 [ApiController]
-public class BlogController : ControllerBase
+public class BlogController : ApiControllerBase
 {
-    private ISender _mediator = null!;
-
-    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 
     [HttpGet]
     public async Task<ActionResult<ApiResponse>> Get() => await Mediator.Send(new GetBlogsQuery());

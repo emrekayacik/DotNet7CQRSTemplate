@@ -3,17 +3,15 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Controllers.Base;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UserController : ApiControllerBase
 {
-    private ISender _mediator = null;
-    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
     private IUserService _userService;
-
 
     public UserController(IUserService userService)
     {
