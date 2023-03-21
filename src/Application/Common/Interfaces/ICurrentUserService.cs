@@ -1,8 +1,7 @@
 ﻿
-namespace Application.Common.Interfaces
+namespace Application.Common.Interfaces;
+
+public interface ICurrentUserService
 {
-    public interface ICurrentUserService
-    {
-        Guid UserId { get; }
-    }
+    Guid UserId { get; }
 }
