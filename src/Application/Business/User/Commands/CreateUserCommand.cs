@@ -32,7 +32,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
             Surname = request.Surname,
             CreatedTime = DateTime.Now,
             CreatedBy = 1,
-            Password = request.Password
+            Password = request.Password // TODO: Will be hashed
         };
 
         _context.Users.Add(entity);
