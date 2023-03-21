@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Blog> Blogs => Set<Blog>();
     public DbSet<Category> Categories => Set<Category>();
+    public DbSet<User> Users => Set<User>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -28,6 +29,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        builder.Entity<Blog>()
+            .HasOne(p => p.Category)
+            .WithMany(b => b.Blogs);
 
         base.OnModelCreating(builder);
     }

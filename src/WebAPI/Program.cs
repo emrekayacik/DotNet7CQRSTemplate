@@ -3,8 +3,10 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Infrastructure.Persistance;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Services;
+using Application.Common.Security;
+using Infrastructure.Identity.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
 builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
+builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped(typeof(IApplicationDbContext), typeof(ApplicationDbContext));
@@ -42,5 +45,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.Run();
