@@ -1,11 +1,13 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using BCrypt.Net;
 using Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BC = BCrypt.Net.BCrypt;
 
 namespace Infrastructure.Identity.Services
 {
@@ -24,7 +26,7 @@ namespace Infrastructure.Identity.Services
             var user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
 
             // return null if user not found
-            if (user == null || model.Password != user.Password) return null;
+            if (user == null || !BC.EnhancedVerify(model.Password, user.Password, HashType.SHA512)) return null;
 
             // authentication successful so generate jwt token
             var token = generateJwtToken(user);

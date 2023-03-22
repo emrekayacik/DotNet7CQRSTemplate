@@ -1,6 +1,7 @@
-﻿
+﻿using BC = BCrypt.Net.BCrypt;
 using Application.Common.Interfaces;
 using MediatR;
+using BCrypt.Net;
 
 namespace Application.Business.User.Commands;
 
@@ -32,7 +33,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
             Surname = request.Surname,
             CreatedTime = DateTime.Now,
             CreatedBy = 1,
-            Password = request.Password // TODO: Will be hashed
+            Password = BC.EnhancedHashPassword(request.Password, HashType.SHA512) // hash
         };
 
         _context.Users.Add(entity);
