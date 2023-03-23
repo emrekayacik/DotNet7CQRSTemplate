@@ -2,6 +2,7 @@
 using Application.Common.Models;
 using BCrypt.Net;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -34,24 +35,9 @@ namespace Infrastructure.Identity.Services
             return new AuthenticateResponse(user, token);
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<User> GetUserAsync(Guid userId)
         {
-            throw new NotImplementedException();
-        }
-
-        public User GetById(Guid id)
-        {
-            return _context.Users.FirstOrDefault(a => a.Id == id && a.DeletedTime == null);
-        }
-
-        public Task<string> GetUserNameAsync(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> IsInRoleAsync(Guid userId, string role)
-        {
-            throw new NotImplementedException();
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == userId && x.DeletedTime == null);
         }
 
         private string generateJwtToken(User user)
@@ -67,6 +53,20 @@ namespace Infrastructure.Identity.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+        public Task<bool> IsInRoleAsync(Guid userId, string role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetById(Guid userId)
+        {
+            return _context.Users.FirstOrDefault(a => a.Id == userId && a.DeletedTime == null);
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
         }
     }
 }

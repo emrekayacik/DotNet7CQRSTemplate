@@ -6,8 +6,8 @@ namespace Application.Common.Interfaces;
 public interface IUserService
 {
     AuthenticateResponse Authenticate(AuthenticateRequest model);
-    IEnumerable<User> GetAll();
-    User GetById(Guid id);
-    Task<string> GetUserNameAsync(Guid userId);
+    Task<User> GetUserAsync(Guid userId);
     Task<bool> IsInRoleAsync(Guid userId, string role);
+    User GetById(Guid userId);
+    Task<IEnumerable<User>> GetAllUsersAsync();
 }

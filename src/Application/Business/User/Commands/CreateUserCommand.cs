@@ -33,7 +33,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
             Surname = request.Surname,
             CreatedTime = DateTime.Now,
             CreatedBy = 1,
-            Password = BC.EnhancedHashPassword(request.Password, HashType.SHA512) // hash
+            Password = BC.EnhancedHashPassword(request.Password, HashType.SHA512)
         };
 
         _context.Users.Add(entity);

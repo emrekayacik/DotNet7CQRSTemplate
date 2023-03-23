@@ -1,6 +1,7 @@
 ﻿using Application.Business.User.Commands;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Controllers.Base;
@@ -31,6 +32,26 @@ public class UserController : ApiControllerBase
 
         if (response == null)
             return BadRequest(new { message = "Username or password is incorrect" });
+
+        return Ok(response);
+    }
+    [HttpGet("GetUser")]
+    public async Task<ActionResult<User>> GetUser(Guid Id)
+    {
+        var response = await _userService.GetUserAsync(Id);
+
+        if (response == null)
+            return NotFound(new { message = "User Cannot Found" });
+
+        return Ok(response);
+    }
+    [HttpGet("GetAllUsers")]
+    public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+    {
+        var response = await _userService.GetAllUsersAsync();
+
+        if (response == null)
+            return NotFound(new { message = "No Users Found" });
 
         return Ok(response);
     }
