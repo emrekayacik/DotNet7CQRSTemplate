@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Controllers.Base;
@@ -22,6 +23,7 @@ public class UserController : ApiControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(CreateUserCommand command)
     {
+
         return await Mediator.Send(command);
     }
 

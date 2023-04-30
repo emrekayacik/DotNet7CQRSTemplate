@@ -11,6 +11,7 @@ using Infrastructure.Identity.Services;
 using Infrastructure.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
+using WebAPI.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,7 +68,10 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped(typeof(IApplicationDbContext), typeof(ApplicationDbContext));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<HttpResponseExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -81,6 +85,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseExceptionHandler("/error-development");
+}
+else
+{
+    app.UseExceptionHandler("/error");
 }
 
 app.UseHttpsRedirection();

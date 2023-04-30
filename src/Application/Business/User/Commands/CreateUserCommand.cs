@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using MediatR;
 using BCrypt.Net;
+using Domain.Exceptions;
 
 namespace Application.Business.User.Commands;
 
@@ -25,6 +26,11 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 
     public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        // dummy example for custom exception handling
+        if (request.Username == string.Empty)
+        {
+            throw new HttpResponseException(401,"Username cannot be null.");
+        }
         var entity = new Domain.Entities.User
         {
             Username = request.Username,
