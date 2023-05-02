@@ -1,17 +1,15 @@
 using Application.Common.Interfaces;
-using System.Reflection;
-using FluentValidation;
-using MediatR;
-using Infrastructure.Persistance;
-using Microsoft.EntityFrameworkCore;
-using WebAPI.Services;
-using Application.Common.Security;
 using Application.Common.Models;
+using FluentValidation;
 using Infrastructure.Identity.Services;
+using Infrastructure.Persistance;
 using Infrastructure.Security;
-using Microsoft.Extensions.Configuration;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using WebAPI.Filters;
+using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,7 +73,12 @@ builder.Services.AddControllers(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddLogging(x=>
+{
+    x.ClearProviders();
+    x.SetMinimumLevel(LogLevel.Debug);
+    x.AddDebug();
+});
 
 
 var app = builder.Build();

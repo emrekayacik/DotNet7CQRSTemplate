@@ -13,11 +13,13 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class UserController : ApiControllerBase
 {
+    private readonly ILogger<UserController> logger;
     private IUserService _userService;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, ILogger<UserController> _logger)
     {
         _userService = userService;
+        logger = _logger;
     }
 
     [HttpPost]
@@ -32,9 +34,11 @@ public class UserController : ApiControllerBase
     {
         var response = _userService.Authenticate(model);
 
-        if (response == null)
+        if (response == null) {
+            logger.LogWarning("Invalid username or password. username:{0} password: {1}",model.Username, model.Password);
             return BadRequest(new { message = "Username or password is incorrect" });
-
+        }
+        logger.LogInformation("The user has been authenticated successfully.");
         return Ok(response);
     }
     [HttpGet("GetUser")]
